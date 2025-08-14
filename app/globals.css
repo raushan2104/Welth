@@ -125,3 +125,15 @@
   @apply bg-gradient-to-br from-blue-600 to-purple-600 font-extrabold tracking-tighter pr-2 pb-2 text-transparent bg-clip-text;
 }
 
+.hero-cont{
+  perspective:1000px ;
+}
+.hero-image-wrapper{
+  transform: rotateX(15deg) scale(1);
+  transition: transform 0.5s ease-out;
+  will-change: transform;
+}
+
+.hero-image-wrapper.scrolled{
+  transform: rotateX(0deg) scale(1) translateY(40px);
+}
