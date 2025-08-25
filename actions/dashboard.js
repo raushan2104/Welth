@@ -2,13 +2,21 @@
 
 import { db } from "@/lib/prisma";
 import {auth } from "@clerk/nextjs/server";
+import { revalidatePath } from "next/cache";
+
 
 const serializeTransaction =(obj) =>{
     const serialized = {...obj};
 
-    if(obj.balance){
-        serialized.balance= obj.balance.toNumber();
-    }
+    if (obj.balance) {
+    // agar Prisma Decimal use kar raha ho
+    serialized.balance =
+      typeof obj.balance.toNumber === "function"
+        ? obj.balance.toNumber()
+        : obj.balance;
+  }
+
+    return serialized;
 };
 
 
@@ -29,7 +37,7 @@ export async function createAccount(data){
 
         const balanceFloat = parseFloat(data.balance)
 
-        if(!isNaN(balanceFloat)){
+        if(isNaN(balanceFloat)){
             throw new Error("Invalid balance amount");
         }
 
