@@ -7,7 +7,7 @@ import { getUserAccounts } from '@/actions/dashboard';
 import AccountCard from './_components/account_card';
 import { getCurrentBudget } from '@/actions/budget';
 import { BudgetProgress } from './_components/budget-progress';
- async function DashboardPage ()  {
+async function DashboardPage ()  {
   const accounts = await getUserAccounts();
 
   const defaultAccount = accounts?.find((account)=> account.isDefault);
@@ -15,17 +15,18 @@ import { BudgetProgress } from './_components/budget-progress';
   if(defaultAccount){
     budgetData = await getCurrentBudget(defaultAccount.id);
   }
-
+ console.log("budgetData:", budgetData); // 👈 Debug karo
   return (
     <div className='space-y-8'>
         {/* Budget Progress */}
 
-        {defaultAccount && (
-          <BudgetProgress 
-            initialBudget = {budgetData?.budget}
-            currentExpenses = {budgetData?.currentExpenses || 0}
-          />
-        )}
+        {defaultAccount && budgetData && (
+  <BudgetProgress 
+    initialBudget={{ amount: budgetData?.budget?.amount || 0 }} 
+    currentExpenses={budgetData?.currentExpenses || 0}
+  />
+)}
+
 
 
         {/* Overview */}
