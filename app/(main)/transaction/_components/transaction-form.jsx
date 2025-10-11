@@ -11,14 +11,14 @@ import {
 } from "@/components/ui/select";
 import { transactionSchema } from "@/app/lib/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import AccountsPage from '../../accounts/[id]/page';
+import { createTransaction } from '@/actions/transaction';
 
-const AddTransactionForm = () => {
+const AddTransactionForm = ({accounts, categories}) => {
     const {
         register,
         setValue,
         handleSubmit,
-        formSate: {errors},
+        formState: {errors},
         watch,
         getValues,
         reset,
@@ -28,7 +28,7 @@ const AddTransactionForm = () => {
             type : "EXPENSE",
             amount: "",
             description:"",
-            accountId: AccountsPage.find((ac)=> ac.isDefault)?.id,
+            accountId: accounts.find((ac) => ac.isDefault)?.id,
             date:new Date(),
             isRecurring: false,
         },
