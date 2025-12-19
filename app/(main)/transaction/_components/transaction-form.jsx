@@ -67,7 +67,7 @@ const AddTransactionForm = ({ accounts, categories }) => {
       ...data,
       amount : parseFloat(data.amount),
     };
-    transactionFn(formData);
+    await transactionFn(formData);
   };
   useEffect(()=>{
     if(transactionResult?.success && !transactionLoading){
@@ -76,6 +76,7 @@ const AddTransactionForm = ({ accounts, categories }) => {
       router.push(`/account/${transactionResult.data.accountId}`);
     }
   }, [transactionResult, transactionLoading]);
+  console.log(transactionResult);
 
   const filteredCategories = categories.filter(
     (category) => category.type === type
